@@ -2,7 +2,7 @@
 * QSInterface.h
 *
 *  Created on: May 1, 2014
-*  Last Updated on: March 30, 2015
+*  Last Updated on: Aug 30, 2018
 */
 
 #ifndef QSINTERFACE_H_
@@ -25,7 +25,7 @@ public:
 	/*
 	* sortAll()
 	*
-	* Sorts elements of the array.  After this function is called, every
+	* Sorts elements of the array. After this function is called, every
 	* element in the array is less than or equal its successor.
 	*
 	* Does nothing if the array is empty.
@@ -61,8 +61,19 @@ public:
 
 	/*
 	* Partitions a subarray around a pivot value selected according to
-	* median-of-three pivot selection.  Because there are multiple ways to partition a list,
-	* we will follow the algorithm on page 611 of the course text when testing this function.
+	* median-of-three pivot selection. Because there are multiple ways to partition a list,
+	* we will follow the algorithm as follows (also found on page 611 of the textbook):
+  *
+  * 0 - Check all the input values. Return -1 if any input values are bad (more details below).
+  * 1 - Swap the array values at left and pivotIndex (so now the pivot value is at position "left")
+  * 2 - Set "up" to left+1 and "down" to right (assuming that right is INCLUDED as an index in the array, not the size of the array)
+  * 3 - DO
+  *       while the array value at "up" <= array value at "left" (pivot value) and "up" is to the left of "right", increment "up" pointer
+  *       while the array value at "down" > array value at "left" (pivot value) and "down" is to the right of "left", decrement "down" pointer
+  *       if up < down, then swap the array values at "up" and "down"
+  *     WHILE up < down
+  * 4 - Swap the array values at left and down (swap the pivot value to the "down" index)
+  * 5 - Return down (the new position of the pivot value)
 	*
 	* The values which are smaller than the pivot should be placed to the left
 	* of the pivot; the values which are larger than the pivot should be placed
@@ -81,13 +92,16 @@ public:
 	* @return
 	*		the pivot's ending index after the partition completes; -1 if
 	* 		provided with bad input
+  *
+  * NOTE: This function SHOULD NOT call medianOfThree. The return value
+  *  of medianOfThree should be passed in as the pivotIndex.
 	*/
 	virtual int partition(int left, int right, int pivotIndex) = 0;
 
 	/*
 	* Produces a comma delimited string representation of the array. For example: if my array
 	* looked like {5,7,2,9,0}, then the string to be returned would look like "5,7,2,9,0"
-	* with no trailing comma.  The number of cells included equals the number of values added.
+	* with no trailing comma. The number of cells included equals the number of values added.
 	* Do not include the entire array if the array has yet to be filled.
 	*
 	* Returns an empty string, if the array is NULL or empty.
@@ -133,4 +147,3 @@ public:
 };
 
 #endif /* QSINTERFACE_H_ */
-	
